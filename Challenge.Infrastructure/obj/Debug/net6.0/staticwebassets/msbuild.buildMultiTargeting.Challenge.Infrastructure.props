@@ -1,0 +1,3 @@
+﻿<Project>
+  <Import Project="..\build\Challenge.Infrastructure.props" />
+</Project>
