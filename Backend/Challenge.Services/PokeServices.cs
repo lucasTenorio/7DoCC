@@ -31,7 +31,7 @@ namespace Challenge.Services
             }catch(Exception ex)
             {
                 _iLogger.LogError(message: ex.Message, ex);
-                return null;
+                return new Pokedex();
             }
             finally { 
                 _httpClient.Dispose();

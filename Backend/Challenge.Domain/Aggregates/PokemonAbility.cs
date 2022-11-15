@@ -4,7 +4,7 @@ namespace Challenge.Domain.Aggregates
 {
     public class PokemonAbility : IPokemonAbility
     {
-        public Ability Ability {get; set;}
+        public Ability Ability { get; set; } = new Ability();
 
         public bool IsHidden {get; set;}
 

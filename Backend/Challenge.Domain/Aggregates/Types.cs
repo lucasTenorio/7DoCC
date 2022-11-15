@@ -6,6 +6,6 @@ namespace Challenge.Domain.Aggregates
     {
         public int slot { get; set; }
 
-        public Type Type { get; set; }
+        public Type Type { get; set; } = new Type();
     }
 }

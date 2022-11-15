@@ -10,6 +10,6 @@ namespace Challenge.Domain.Aggregates
 
         public int Effort {get; set; }
 
-        public Stat Stat { get; set; }
+        public Stat Stat { get; set; } = new Stat(); 
     }
 }

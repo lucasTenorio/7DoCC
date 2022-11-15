@@ -8,9 +8,9 @@ namespace Challenge.Domain.Aggregates
         [JsonPropertyName("level_learned_at")]
         public int LevelLearnedAt { get ; set; }
         [JsonPropertyName("move_learn_method")]
-        public MoveLearnMethod MoveLearnMethod { get; set; }
+        public MoveLearnMethod MoveLearnMethod { get; set; } = new MoveLearnMethod();
         [JsonPropertyName("version_group")]
-        public VersionGroup VersionGroup { get; set; }
+        public VersionGroup VersionGroup { get; set; } = new VersionGroup();
 
     }
 }

@@ -9,9 +9,9 @@ namespace Challenge.Domain.Aggregates
         {
         }
         [JsonPropertyName("version_group_details")]
-        public List<VersionGroupDetail> VersionGroupDetails { get; set; }
+        public List<VersionGroupDetail> VersionGroupDetails { get; set; } = new List<VersionGroupDetail>();
 
-        public MoveDescription Move { get; set; }
+        public MoveDescription Move { get; set; } = new MoveDescription();  
 
     }
 }

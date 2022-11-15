@@ -11,9 +11,9 @@ namespace Challenge.Domain.Entities
 
         public bool IsDefault { get; set; }
         [JsonPropertyName("location_area_encounters")]
-        public string LocationAreaEncounters { get; set; }
+        public string? LocationAreaEncounters { get; set; }
 
-        public string Name { get; set; }
+        public string? Name { get; set; }
 
         public int Order { get; set; }
 
@@ -23,20 +23,20 @@ namespace Challenge.Domain.Entities
         [JsonPropertyName("base_experience")]
         public int BaseExperience { get; set; }
 
-        public List<PokemonMove> Moves { get; set; }
+        public List<PokemonMove> Moves { get; set; } = new List<PokemonMove>();
 
-        public List<Stats> Stats { get; set; }
+        public List<Stats> Stats { get; set; } = new List<Stats>();
 
-        public List<Types> Types { get; set; }
+        public List<Types> Types { get; set; } = new List<Types>();
 
-        public List<Abilities> Abilities { get; set; }
+        public List<Abilities> Abilities { get; set; } = new List<Abilities>();
 
-        public List<Form> Forms { get; set; }
+        public List<Form> Forms { get; set; } = new List<Form>();
 
         [JsonPropertyName("game_indices")]
-        public List<GameIndice> GameIndices { get; set; }
+        public List<GameIndice> GameIndices { get; set; } = new List<GameIndice>();
 
-        public Species Species { get; set; }
+        public Species Species { get; set; } = new Species();
 
         public PokemonStatus()
         {

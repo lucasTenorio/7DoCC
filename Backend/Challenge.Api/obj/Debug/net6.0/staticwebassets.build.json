@@ -1,13 +1,13 @@
 {
   "Version": 1,
-  "Hash": "WzwjzAV02saaYQhA+gvaRwuLmWtOYaZSFKf+RN0oWxE=",
+  "Hash": "FbthHSTHFmiG25bEow3QPgbfeN7ZuTXBYT0t5LZTa8E=",
   "Source": "Challenge.Api",
   "BasePath": "_content/Challenge.Api",
   "Mode": "Default",
   "ManifestType": "Build",
   "ReferencedProjectsConfiguration": [
     {
-      "Identity": "C:\\Users\\lucas\\source\\repos\\Seven_days_of_code_challenge\\7DoCC2\\Challenge.Domain\\Challenge.Domain.csproj",
+      "Identity": "C:\\Users\\lucas\\source\\repos\\Seven_days_of_code_challenge\\7DoCC2\\Backend\\Challenge.Domain\\Challenge.Domain.csproj",
       "Version": 2,
       "Source": "Challenge.Domain",
       "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
@@ -18,7 +18,7 @@
       "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
     },
     {
-      "Identity": "C:\\Users\\lucas\\source\\repos\\Seven_days_of_code_challenge\\7DoCC2\\Challenge.Infrastructure\\Challenge.Infrastructure.csproj",
+      "Identity": "C:\\Users\\lucas\\source\\repos\\Seven_days_of_code_challenge\\7DoCC2\\Backend\\Challenge.Infrastructure\\Challenge.Infrastructure.csproj",
       "Version": 2,
       "Source": "Challenge.Infrastructure",
       "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",
@@ -29,7 +29,7 @@
       "AdditionalBuildPropertiesToRemove": "WebPublishProfileFile;TargetFramework;RuntimeIdentifier;SelfContained"
     },
     {
-      "Identity": "C:\\Users\\lucas\\source\\repos\\Seven_days_of_code_challenge\\7DoCC2\\Challenge.Services\\Challenge.Services.csproj",
+      "Identity": "C:\\Users\\lucas\\source\\repos\\Seven_days_of_code_challenge\\7DoCC2\\Backend\\Challenge.Services\\Challenge.Services.csproj",
       "Version": 2,
       "Source": "Challenge.Services",
       "GetPublishAssetsTargets": "ComputeReferencedStaticWebAssetsPublishManifest;GetCurrentProjectPublishStaticWebAssetItems",

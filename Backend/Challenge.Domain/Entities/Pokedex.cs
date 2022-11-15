@@ -8,11 +8,11 @@ namespace Challenge.Domain.Entities
     {
         public int Count { get; set; }
 
-        public string Next { get; set; }
+        public string? Next { get; set; }
 
-        public string Previous { get; set; }
+        public string? Previous { get; set; }
 
-        public List<PokeShortDescription> Results { get; set; }
+        public List<PokeShortDescription> Results { get; set; } = new List<PokeShortDescription>();
 
         public Pokedex(int count, string next, string previous, List<PokeShortDescription> results)
         {
@@ -21,5 +21,6 @@ namespace Challenge.Domain.Entities
             Previous = previous;
             Results = results;
         }
+        public Pokedex() { }
     }
 }

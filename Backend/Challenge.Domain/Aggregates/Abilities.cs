@@ -4,7 +4,7 @@ namespace Challenge.Domain.Aggregates
 {
     public class Abilities : IAbilities
     {
-        public Ability Ability { get; set; }
+        public Ability Ability { get; set; } = new Ability();
 
         public bool is_hidden {get;set;}
 

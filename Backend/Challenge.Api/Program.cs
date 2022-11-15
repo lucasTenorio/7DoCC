@@ -15,6 +15,16 @@ builder.Services.AddTransient<IPokeServices, PokeServices>();
 builder.Services.AddScoped<PokeEndpoints>();
 
 builder.Services.AddHttpClient();
+builder.Services.AddSwaggerGen();
+builder.Services.AddCors(
+    b => b.AddPolicy(
+        name: "default",
+        policy => {
+            policy
+                .WithOrigins("http://localhost:4200")
+                .WithMethods("PUT", "DELETE", "GET", "POST")
+                .SetIsOriginAllowedToAllowWildcardSubdomains();
+            }));
 
 var app = builder.Build();
 
@@ -26,6 +36,10 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseCors("default");
 
 app.UseAuthorization();
 

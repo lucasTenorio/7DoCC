@@ -2,7 +2,7 @@
 {
     public interface IDescriptionUrl
     {
-        string Name { get; }
-        string Url { get; }
+        string? Name { get; }
+        string? Url { get; }
     }
 }

@@ -1,0 +1,425 @@
+{
+    "openapi": "3.0.1",
+    "info": {
+      "title": "Challenge.Api",
+      "version": "1.0"
+    },
+    "paths": {
+      "/Api/Poke": {
+        "get": {
+          "tags": [
+            "Poke"
+          ],
+          "responses": {
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Pokedex"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Pokedex"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/Pokedex"
+                  }
+                }
+              }
+            },
+            "400": {
+              "description": "Bad Request"
+            }
+          }
+        }
+      },
+      "/Api/PokemonDescription": {
+        "get": {
+          "tags": [
+            "PokemonDescription"
+          ],
+          "parameters": [
+            {
+              "name": "filter",
+              "in": "query",
+              "schema": {
+                "type": "integer",
+                "format": "int32"
+              }
+            }
+          ],
+          "responses": {
+            "400": {
+              "description": "Bad Request"
+            },
+            "200": {
+              "description": "Success",
+              "content": {
+                "text/plain": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PokemonStatus"
+                  }
+                },
+                "application/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PokemonStatus"
+                  }
+                },
+                "text/json": {
+                  "schema": {
+                    "$ref": "#/components/schemas/PokemonStatus"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "components": {
+      "schemas": {
+        "Abilities": {
+          "type": "object",
+          "properties": {
+            "ability": {
+              "$ref": "#/components/schemas/Ability"
+            },
+            "is_hidden": {
+              "type": "boolean"
+            },
+            "slot": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Ability": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "Form": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "GameIndice": {
+          "type": "object",
+          "properties": {
+            "game_index": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "version": {
+              "$ref": "#/components/schemas/Version"
+            }
+          },
+          "additionalProperties": false
+        },
+        "MoveDescription": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "MoveLearnMethod": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "Pokedex": {
+          "type": "object",
+          "properties": {
+            "count": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "next": {
+              "type": "string",
+              "nullable": true
+            },
+            "previous": {
+              "type": "string",
+              "nullable": true
+            },
+            "results": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PokeShortDescription"
+              },
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "PokemonMove": {
+          "type": "object",
+          "properties": {
+            "version_group_details": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/VersionGroupDetail"
+              },
+              "nullable": true
+            },
+            "move": {
+              "$ref": "#/components/schemas/MoveDescription"
+            }
+          },
+          "additionalProperties": false
+        },
+        "PokemonStatus": {
+          "type": "object",
+          "properties": {
+            "id": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "isDefault": {
+              "type": "boolean"
+            },
+            "location_area_encounters": {
+              "type": "string",
+              "nullable": true
+            },
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "order": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "height": {
+              "type": "number",
+              "format": "float"
+            },
+            "weight": {
+              "type": "number",
+              "format": "float"
+            },
+            "base_experience": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "moves": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/PokemonMove"
+              },
+              "nullable": true
+            },
+            "stats": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Stats"
+              },
+              "nullable": true
+            },
+            "types": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Types"
+              },
+              "nullable": true
+            },
+            "abilities": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Abilities"
+              },
+              "nullable": true
+            },
+            "forms": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/Form"
+              },
+              "nullable": true
+            },
+            "game_indices": {
+              "type": "array",
+              "items": {
+                "$ref": "#/components/schemas/GameIndice"
+              },
+              "nullable": true
+            },
+            "species": {
+              "$ref": "#/components/schemas/Species"
+            }
+          },
+          "additionalProperties": false
+        },
+        "PokeShortDescription": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "Species": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "Stat": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "Stats": {
+          "type": "object",
+          "properties": {
+            "base_stat": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "effort": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "stat": {
+              "$ref": "#/components/schemas/Stat"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Type": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "Types": {
+          "type": "object",
+          "properties": {
+            "slot": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "type": {
+              "$ref": "#/components/schemas/Type"
+            }
+          },
+          "additionalProperties": false
+        },
+        "Version": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "VersionGroup": {
+          "type": "object",
+          "properties": {
+            "name": {
+              "type": "string",
+              "nullable": true
+            },
+            "url": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          "additionalProperties": false
+        },
+        "VersionGroupDetail": {
+          "type": "object",
+          "properties": {
+            "level_learned_at": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "move_learn_method": {
+              "$ref": "#/components/schemas/MoveLearnMethod"
+            },
+            "version_group": {
+              "$ref": "#/components/schemas/VersionGroup"
+            }
+          },
+          "additionalProperties": false
+        }
+      }
+    }
+  }

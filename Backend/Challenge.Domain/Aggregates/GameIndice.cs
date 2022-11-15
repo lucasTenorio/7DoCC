@@ -7,6 +7,6 @@ namespace Challenge.Domain.Aggregates
     {
         [JsonPropertyName("game_index")]
         public int gameIndex { get; set; }
-        public Version Version { get; set; }
+        public Version Version { get; set; } = new Version();
     }
 }

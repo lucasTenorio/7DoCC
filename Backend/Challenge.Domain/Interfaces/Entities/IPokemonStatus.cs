@@ -7,8 +7,8 @@ namespace Challenge.Domain.Interfaces.Entities
     {
         int Id { get; }
         bool IsDefault { get; }
-        string LocationAreaEncounters { get; }
-        string Name { get; }
+        string? LocationAreaEncounters { get; }
+        string? Name { get; }
         int Order { get; }
         float Height { get; }
         float Weight { get; }
