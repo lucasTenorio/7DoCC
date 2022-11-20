@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { RouterLink } from '@angular/router';
 import { firstValueFrom } from 'rxjs';
-import { IPokedex, PokeService } from 'src/app/providers/backend-client-provider';
+import { IPokedex, IPokemonStatus, PokeService } from 'src/app/providers/backend-client-provider';
 
 @Component({
   selector: 'app-mascote',
@@ -11,10 +12,14 @@ export class MascoteComponent implements OnInit {
 
   pokeList : IPokedex = {}
 
-  constructor(private readonly pokedexService : PokeService) { }
+  pokeDetails : IPokemonStatus = {}
+
+  constructor(
+    private readonly pokedexService : PokeService) { }
 
   async ngOnInit(): Promise<void> {
-    this.pokeList = await firstValueFrom(this.pokedexService.apiPoke())
+    this.pokeList = await firstValueFrom(this.pokedexService.poke())
   }
+
 
 }

@@ -9,6 +9,8 @@ import { HomeComponent } from './pages/home/home.component';
 import { MascoteModule } from './pages/mascote/mascote.module';
 import { PokeService } from './providers/backend-client-provider';
 import { HeaderComponent } from './common/header/header.component';
+import { ToastrModule } from 'ngx-toastr';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations'
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { HeaderComponent } from './common/header/header.component';
     BrowserModule,
     AppRoutingModule,
     MascoteModule,
-    HttpClientModule
+    HttpClientModule,
+    BrowserAnimationsModule,
+    ToastrModule.forRoot()
   ],
   providers: [PokeService],
   bootstrap: [AppComponent]

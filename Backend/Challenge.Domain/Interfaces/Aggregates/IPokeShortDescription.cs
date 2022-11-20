@@ -4,5 +4,6 @@
     {
         public string Name { get; }
         public string Url { get; }
+        public int PokemonId { get; }
     }
 }

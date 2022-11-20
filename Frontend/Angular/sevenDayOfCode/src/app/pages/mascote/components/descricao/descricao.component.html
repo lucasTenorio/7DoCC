@@ -1,1 +1,22 @@
-<p>descricao works!</p>
+<div>
+    <h3>Descrição</h3>
+
+    <span>Name : {{pokeDetails.name}}</span><br>
+    <span>Order : {{pokeDetails.order}}</span><br>
+    <span>Height : {{pokeDetails.height}}</span><br>
+    <span>Weight : {{pokeDetails.weight}}</span><br>
+    <span>Base Experience : {{pokeDetails.base_experience}}</span><br>
+</div>
+<div>
+    <button (click)="adotar()">Adotar</button>
+</div>
+<div>
+    <h4>Moves</h4>
+    <div *ngFor="let item of pokeDetails.moves">
+        <span>
+            {{item.move?.name}}
+        </span>
+        <br>
+    </div>
+</div>
+

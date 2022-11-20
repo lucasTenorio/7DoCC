@@ -11,26 +11,13 @@
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase, HttpContext } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
-
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
-export interface IPokeService {
-    /**
-     * @return Success
-     */
-    apiPoke(): Observable<Pokedex>;
-    /**
-     * @param filter (optional) 
-     * @return Success
-     */
-    apiPokemonDescription(filter: number | undefined): Observable<PokemonStatus>;
-}
-
 @Injectable()
-export class PokeService implements IPokeService {
+export class PokeService {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -43,25 +30,24 @@ export class PokeService implements IPokeService {
     /**
      * @return Success
      */
-    apiPoke(httpContext?: HttpContext): Observable<Pokedex> {
+    poke(): Observable<Pokedex> {
         let url_ = this.baseUrl + "/Api/Poke";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
-            context: httpContext,
             headers: new HttpHeaders({
                 "Accept": "text/plain"
             })
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processApiPoke(response_);
+            return this.processPoke(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processApiPoke(response_ as any);
+                    return this.processPoke(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<Pokedex>;
                 }
@@ -70,7 +56,7 @@ export class PokeService implements IPokeService {
         }));
     }
 
-    protected processApiPoke(response: HttpResponseBase): Observable<Pokedex> {
+    protected processPoke(response: HttpResponseBase): Observable<Pokedex> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -100,7 +86,7 @@ export class PokeService implements IPokeService {
      * @param filter (optional) 
      * @return Success
      */
-    apiPokemonDescription(filter: number | undefined, httpContext?: HttpContext): Observable<PokemonStatus> {
+    pokemonDescription(filter: number | undefined): Observable<PokemonStatus> {
         let url_ = this.baseUrl + "/Api/PokemonDescription?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -111,18 +97,17 @@ export class PokeService implements IPokeService {
         let options_ : any = {
             observe: "response",
             responseType: "blob",
-            context: httpContext,
             headers: new HttpHeaders({
                 "Accept": "text/plain"
             })
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processApiPokemonDescription(response_);
+            return this.processPokemonDescription(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processApiPokemonDescription(response_ as any);
+                    return this.processPokemonDescription(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<PokemonStatus>;
                 }
@@ -131,7 +116,7 @@ export class PokeService implements IPokeService {
         }));
     }
 
-    protected processApiPokemonDescription(response: HttpResponseBase): Observable<PokemonStatus> {
+    protected processPokemonDescription(response: HttpResponseBase): Observable<PokemonStatus> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -649,6 +634,7 @@ export interface IPokemonStatus {
 export class PokeShortDescription implements IPokeShortDescription {
     name?: string | undefined;
     url?: string | undefined;
+    pokemonId?: number;
 
     constructor(data?: IPokeShortDescription) {
         if (data) {
@@ -663,6 +649,7 @@ export class PokeShortDescription implements IPokeShortDescription {
         if (_data) {
             this.name = _data["name"];
             this.url = _data["url"];
+            this.pokemonId = _data["pokemonId"];
         }
     }
 
@@ -677,6 +664,7 @@ export class PokeShortDescription implements IPokeShortDescription {
         data = typeof data === 'object' ? data : {};
         data["name"] = this.name;
         data["url"] = this.url;
+        data["pokemonId"] = this.pokemonId;
         return data;
     }
 }
@@ -684,6 +672,7 @@ export class PokeShortDescription implements IPokeShortDescription {
 export interface IPokeShortDescription {
     name?: string | undefined;
     url?: string | undefined;
+    pokemonId?: number;
 }
 
 export class Species implements ISpecies {

@@ -4,17 +4,20 @@ import { EspeciesComponent } from './components/especies/especies.component';
 import { DescricaoComponent } from './components/descricao/descricao.component';
 import { MascoteComponent } from './components/mascote-menu/mascote.component';
 import { HttpClientModule } from '@angular/common/http';
-
+import { AppRoutingModule } from 'src/app/app-routing.module';
+import { AdotadoComponent } from './components/adotado/adotado.component';
 
 @NgModule({
   declarations: [
     EspeciesComponent,
     DescricaoComponent,
-    MascoteComponent
+    MascoteComponent,
+    AdotadoComponent
   ],
   imports: [
     CommonModule,
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ]
 })
 export class MascoteModule { }
