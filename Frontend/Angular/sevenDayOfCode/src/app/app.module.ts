@@ -8,11 +8,13 @@ import { HomeComponent } from './pages/home/home.component';
 
 import { MascoteModule } from './pages/mascote/mascote.module';
 import { PokeService } from './providers/backend-client-provider';
+import { HeaderComponent } from './common/header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
+    HeaderComponent,
   ],
   imports: [
     BrowserModule,
