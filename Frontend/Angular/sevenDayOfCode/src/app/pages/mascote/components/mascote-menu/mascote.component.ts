@@ -18,7 +18,7 @@ export class MascoteComponent implements OnInit {
     private readonly pokedexService : PokeService) { }
 
   async ngOnInit(): Promise<void> {
-    this.pokeList = await firstValueFrom(this.pokedexService.poke())
+    this.pokeList = await firstValueFrom(this.pokedexService.apiPoke())
   }
 
 

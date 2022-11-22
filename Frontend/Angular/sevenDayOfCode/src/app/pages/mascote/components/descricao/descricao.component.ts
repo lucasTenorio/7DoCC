@@ -34,7 +34,7 @@ export class DescricaoComponent implements OnInit, OnDestroy {
     if(!filter) return;
     try
     {
-      this.pokeDetails = await firstValueFrom(this.pokedexService.pokemonDescription(filter))
+      this.pokeDetails = await firstValueFrom(this.pokedexService.apiPokemonDescription(filter))
     }
     catch(error)
     {

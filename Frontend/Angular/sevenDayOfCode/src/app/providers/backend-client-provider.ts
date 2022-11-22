@@ -11,13 +11,45 @@
 import { mergeMap as _observableMergeMap, catchError as _observableCatch } from 'rxjs/operators';
 import { Observable, throwError as _observableThrow, of as _observableOf } from 'rxjs';
 import { Injectable, Inject, Optional, InjectionToken } from '@angular/core';
-import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase } from '@angular/common/http';
+import { HttpClient, HttpHeaders, HttpResponse, HttpResponseBase, HttpContext } from '@angular/common/http';
 import { environment } from 'src/environments/environment';
+
 
 export const API_BASE_URL = new InjectionToken<string>('API_BASE_URL');
 
+export interface IPokeService {
+    /**
+     * @return Success
+     */
+    apiInteract(): Observable<AnimalStatus>;
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    apiInteractFeed(body: AnimalStatus | undefined): Observable<AnimalStatus>;
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    apiInteractRest(body: AnimalStatus | undefined): Observable<AnimalStatus>;
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    apiInteractPlay(body: AnimalStatus | undefined): Observable<AnimalStatus>;
+    /**
+     * @return Success
+     */
+    apiPoke(): Observable<Pokedex>;
+    /**
+     * @param filter (optional) 
+     * @return Success
+     */
+    apiPokemonDescription(filter: number | undefined): Observable<PokemonStatus>;
+}
+
 @Injectable()
-export class PokeService {
+export class PokeService implements IPokeService {
     private http: HttpClient;
     private baseUrl: string;
     protected jsonParseReviver: ((key: string, value: any) => any) | undefined = undefined;
@@ -30,24 +62,248 @@ export class PokeService {
     /**
      * @return Success
      */
-    poke(): Observable<Pokedex> {
-        let url_ = this.baseUrl + "/Api/Poke";
+    apiInteract(httpContext?: HttpContext): Observable<AnimalStatus> {
+        let url_ = this.baseUrl + "/api/Interact";
         url_ = url_.replace(/[?&]$/, "");
 
         let options_ : any = {
             observe: "response",
             responseType: "blob",
+            context: httpContext,
             headers: new HttpHeaders({
                 "Accept": "text/plain"
             })
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPoke(response_);
+            return this.processApiInteract(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processPoke(response_ as any);
+                    return this.processApiInteract(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AnimalStatus>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AnimalStatus>;
+        }));
+    }
+
+    protected processApiInteract(response: HttpResponseBase): Observable<AnimalStatus> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 200) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result200: any = null;
+            let resultData200 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result200 = AnimalStatus.fromJS(resultData200);
+            return _observableOf(result200);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    apiInteractFeed(body: AnimalStatus | undefined, httpContext?: HttpContext): Observable<AnimalStatus> {
+        let url_ = this.baseUrl + "/api/Interact/feed";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApiInteractFeed(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processApiInteractFeed(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AnimalStatus>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AnimalStatus>;
+        }));
+    }
+
+    protected processApiInteractFeed(response: HttpResponseBase): Observable<AnimalStatus> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 202) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result202: any = null;
+            let resultData202 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result202 = AnimalStatus.fromJS(resultData202);
+            return _observableOf(result202);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    apiInteractRest(body: AnimalStatus | undefined, httpContext?: HttpContext): Observable<AnimalStatus> {
+        let url_ = this.baseUrl + "/api/Interact/rest";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApiInteractRest(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processApiInteractRest(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AnimalStatus>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AnimalStatus>;
+        }));
+    }
+
+    protected processApiInteractRest(response: HttpResponseBase): Observable<AnimalStatus> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 202) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result202: any = null;
+            let resultData202 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result202 = AnimalStatus.fromJS(resultData202);
+            return _observableOf(result202);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @param body (optional) 
+     * @return Success
+     */
+    apiInteractPlay(body: AnimalStatus | undefined, httpContext?: HttpContext): Observable<AnimalStatus> {
+        let url_ = this.baseUrl + "/api/Interact/play";
+        url_ = url_.replace(/[?&]$/, "");
+
+        const content_ = JSON.stringify(body);
+
+        let options_ : any = {
+            body: content_,
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Content-Type": "application/json",
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("patch", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApiInteractPlay(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processApiInteractPlay(response_ as any);
+                } catch (e) {
+                    return _observableThrow(e) as any as Observable<AnimalStatus>;
+                }
+            } else
+                return _observableThrow(response_) as any as Observable<AnimalStatus>;
+        }));
+    }
+
+    protected processApiInteractPlay(response: HttpResponseBase): Observable<AnimalStatus> {
+        const status = response.status;
+        const responseBlob =
+            response instanceof HttpResponse ? response.body :
+            (response as any).error instanceof Blob ? (response as any).error : undefined;
+
+        let _headers: any = {}; if (response.headers) { for (let key of response.headers.keys()) { _headers[key] = response.headers.get(key); }}
+        if (status === 202) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            let result202: any = null;
+            let resultData202 = _responseText === "" ? null : JSON.parse(_responseText, this.jsonParseReviver);
+            result202 = AnimalStatus.fromJS(resultData202);
+            return _observableOf(result202);
+            }));
+        } else if (status !== 200 && status !== 204) {
+            return blobToText(responseBlob).pipe(_observableMergeMap((_responseText: string) => {
+            return throwException("An unexpected server error occurred.", status, _responseText, _headers);
+            }));
+        }
+        return _observableOf(null as any);
+    }
+
+    /**
+     * @return Success
+     */
+    apiPoke(httpContext?: HttpContext): Observable<Pokedex> {
+        let url_ = this.baseUrl + "/Api/Poke";
+        url_ = url_.replace(/[?&]$/, "");
+
+        let options_ : any = {
+            observe: "response",
+            responseType: "blob",
+            context: httpContext,
+            headers: new HttpHeaders({
+                "Accept": "text/plain"
+            })
+        };
+
+        return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
+            return this.processApiPoke(response_);
+        })).pipe(_observableCatch((response_: any) => {
+            if (response_ instanceof HttpResponseBase) {
+                try {
+                    return this.processApiPoke(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<Pokedex>;
                 }
@@ -56,7 +312,7 @@ export class PokeService {
         }));
     }
 
-    protected processPoke(response: HttpResponseBase): Observable<Pokedex> {
+    protected processApiPoke(response: HttpResponseBase): Observable<Pokedex> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -86,7 +342,7 @@ export class PokeService {
      * @param filter (optional) 
      * @return Success
      */
-    pokemonDescription(filter: number | undefined): Observable<PokemonStatus> {
+    apiPokemonDescription(filter: number | undefined, httpContext?: HttpContext): Observable<PokemonStatus> {
         let url_ = this.baseUrl + "/Api/PokemonDescription?";
         if (filter === null)
             throw new Error("The parameter 'filter' cannot be null.");
@@ -97,17 +353,18 @@ export class PokeService {
         let options_ : any = {
             observe: "response",
             responseType: "blob",
+            context: httpContext,
             headers: new HttpHeaders({
                 "Accept": "text/plain"
             })
         };
 
         return this.http.request("get", url_, options_).pipe(_observableMergeMap((response_ : any) => {
-            return this.processPokemonDescription(response_);
+            return this.processApiPokemonDescription(response_);
         })).pipe(_observableCatch((response_: any) => {
             if (response_ instanceof HttpResponseBase) {
                 try {
-                    return this.processPokemonDescription(response_ as any);
+                    return this.processApiPokemonDescription(response_ as any);
                 } catch (e) {
                     return _observableThrow(e) as any as Observable<PokemonStatus>;
                 }
@@ -116,7 +373,7 @@ export class PokeService {
         }));
     }
 
-    protected processPokemonDescription(response: HttpResponseBase): Observable<PokemonStatus> {
+    protected processApiPokemonDescription(response: HttpResponseBase): Observable<PokemonStatus> {
         const status = response.status;
         const responseBlob =
             response instanceof HttpResponse ? response.body :
@@ -225,6 +482,50 @@ export class Ability implements IAbility {
 export interface IAbility {
     name?: string | undefined;
     url?: string | undefined;
+}
+
+export class AnimalStatus implements IAnimalStatus {
+    fome?: number;
+    humor?: number;
+    energia?: number;
+
+    constructor(data?: IAnimalStatus) {
+        if (data) {
+            for (var property in data) {
+                if (data.hasOwnProperty(property))
+                    (<any>this)[property] = (<any>data)[property];
+            }
+        }
+    }
+
+    init(_data?: any) {
+        if (_data) {
+            this.fome = _data["fome"];
+            this.humor = _data["humor"];
+            this.energia = _data["energia"];
+        }
+    }
+
+    static fromJS(data: any): AnimalStatus {
+        data = typeof data === 'object' ? data : {};
+        let result = new AnimalStatus();
+        result.init(data);
+        return result;
+    }
+
+    toJSON(data?: any) {
+        data = typeof data === 'object' ? data : {};
+        data["fome"] = this.fome;
+        data["humor"] = this.humor;
+        data["energia"] = this.energia;
+        return data;
+    }
+}
+
+export interface IAnimalStatus {
+    fome?: number;
+    humor?: number;
+    energia?: number;
 }
 
 export class Form implements IForm {

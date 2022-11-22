@@ -12,6 +12,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddTransient<IPokeServices, PokeServices>();
+builder.Services.AddTransient<IInteractWithPokemonService, InteractWithPokemonServices>();
 builder.Services.AddScoped<PokeEndpoints>();
 
 builder.Services.AddHttpClient();
