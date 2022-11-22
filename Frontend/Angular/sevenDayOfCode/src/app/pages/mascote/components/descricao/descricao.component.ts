@@ -42,8 +42,11 @@ export class DescricaoComponent implements OnInit, OnDestroy {
     }
   }
 
-  adotar(){
+  async adotar(){
+    const mascoteSelecionado = await firstValueFrom(this.pokedexService.apiInteract())
     localStorage.setItem("mascote", this.currentId.toString())
+    localStorage.setItem("status-mascote", mascoteSelecionado.toJSON())
+    
     if(!localStorage.getItem("mascote")){
       console.log("armazenado: ", localStorage.getItem("mascote"));
       return this.toastService.info("Novo mascote Selecionado com sucesso!")
