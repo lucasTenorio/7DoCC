@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { firstValueFrom, Subscription } from 'rxjs';
-import { IPokemonStatus,  PokeService } from 'src/app/providers/backend-client-provider';
+import { IAnimalStatus, IPokemonStatus,  PokeService } from 'src/app/providers/backend-client-provider';
 
 @Component({
   selector: 'app-descricao',
@@ -13,6 +13,7 @@ export class DescricaoComponent implements OnInit, OnDestroy {
 
   pokeDetails : IPokemonStatus = {}
   currentId : number = 0
+  adoptedPokemonStatus : IAnimalStatus | undefined;
   
   private subscription: Subscription = new Subscription;
   constructor(
@@ -43,10 +44,10 @@ export class DescricaoComponent implements OnInit, OnDestroy {
   }
 
   async adotar(){
-    const mascoteSelecionado = await firstValueFrom(this.pokedexService.apiInteract())
+    const puppySelected = await firstValueFrom(this.pokedexService.apiInteract())
+    this.adoptedPokemonStatus = puppySelected;
     localStorage.setItem("mascote", this.currentId.toString())
-    localStorage.setItem("status-mascote", mascoteSelecionado.toJSON())
-    
+
     if(!localStorage.getItem("mascote")){
       console.log("armazenado: ", localStorage.getItem("mascote"));
       return this.toastService.info("Novo mascote Selecionado com sucesso!")

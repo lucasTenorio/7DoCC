@@ -7,8 +7,11 @@
     <span>Weight : {{pokeDetails.weight}}</span><br>
     <span>Base Experience : {{pokeDetails.base_experience}}</span><br>
 </div>
-<div>
+<div *ngIf="!adoptedPokemonStatus">
     <button (click)="adotar()">Adotar</button>
+</div>
+<div *ngIf="adoptedPokemonStatus">
+    <app-adotado [adopted] = "adoptedPokemonStatus"></app-adotado>
 </div>
 <div>
     <h4>Moves</h4>

@@ -23,7 +23,9 @@ builder.Services.AddCors(
         policy => {
             policy
                 .WithOrigins("http://localhost:4200")
-                .WithMethods("PUT", "DELETE", "GET", "POST")
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .AllowAnyOrigin()
                 .SetIsOriginAllowedToAllowWildcardSubdomains();
             }));
 
