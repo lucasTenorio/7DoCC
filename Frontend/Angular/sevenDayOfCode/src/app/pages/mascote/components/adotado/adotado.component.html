@@ -1,4 +1,10 @@
 <div *ngIf="adopted">
+    <h3>Pokemon Status</h3>
+    <span>Fome : {{adopted.fome}}</span><br>
+    <span>Humor : {{adopted.humor}}</span><br>
+    <span>Energia : {{adopted.energia}}</span>
+</div>
+<div *ngIf="adopted">
     <button (click)="Feed()">Alimentar</button>
     <button (click)="Rest()">Colocar para descansar</button>
     <button (click)="Play()">Brincar</button>

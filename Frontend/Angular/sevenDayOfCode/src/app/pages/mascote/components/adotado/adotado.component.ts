@@ -24,13 +24,28 @@ export class AdotadoComponent implements OnInit {
   }
   
   async Play() {
-    this.adopted = await firstValueFrom(this.pokemonService.apiInteractPlay(new AnimalStatus(this.adopted)))
+    try {
+      this.adopted = await firstValueFrom(this.pokemonService.apiInteractPlay(new AnimalStatus(this.adopted)))
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
   }
   async Rest() {
-    this.adopted = await firstValueFrom(this.pokemonService.apiInteractRest(new AnimalStatus(this.adopted)))
+    try {
+      this.adopted = await firstValueFrom(this.pokemonService.apiInteractRest(new AnimalStatus(this.adopted)))
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
   }
   async Feed() {
-    this.adopted = await firstValueFrom(this.pokemonService.apiInteractFeed(new AnimalStatus(this.adopted)))
+    try {
+      this.adopted = await firstValueFrom(this.pokemonService.apiInteractFeed(new AnimalStatus(this.adopted)))
+    } catch (error) {
+      console.error(error);
+      alert(error);
+    }
   }
-  
+
 }
